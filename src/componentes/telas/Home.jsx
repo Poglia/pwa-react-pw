@@ -1,5 +1,5 @@
 const Home = () => (    
-    <h1>Salas de AULA - PW</h1>
+    <h1>Academia - PW</h1>
 )
 
 export default Home;

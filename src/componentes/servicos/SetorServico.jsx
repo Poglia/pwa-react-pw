@@ -1,8 +1,8 @@
 import Autenticacao from "../seg/Autenticacao";
 
-export const getSalasAPI = async () => {
+export const getSetoresAPI = async () => {
     const response = 
-        await fetch(`${process.env.REACT_APP_ENDERECO_API}/salas`,
+        await fetch(`${process.env.REACT_APP_ENDERECO_API}/setores`,
         {
             method : "GET",
             headers : {
@@ -14,9 +14,9 @@ export const getSalasAPI = async () => {
     return data;
 }
 
-export const getSalaPorCodigoAPI = async codigo => {
+export const getSetorPorCodigoAPI = async codigo => {
     const response = 
-        await fetch(`${process.env.REACT_APP_ENDERECO_API}/salas/${codigo}`,
+        await fetch(`${process.env.REACT_APP_ENDERECO_API}/setores/${codigo}`,
         {
             method : "GET",
             headers : {
@@ -28,9 +28,9 @@ export const getSalaPorCodigoAPI = async codigo => {
     return data;
 }
 
-export const deleteSalaPorCodigoAPI = async codigo => {
+export const deleteSetorPorCodigoAPI = async codigo => {
     const response = 
-        await fetch(`${process.env.REACT_APP_ENDERECO_API}/salas/${codigo}`,
+        await fetch(`${process.env.REACT_APP_ENDERECO_API}/setores/${codigo}`,
         {
             method : "DELETE",
             headers : {
@@ -42,9 +42,9 @@ export const deleteSalaPorCodigoAPI = async codigo => {
     return data;
 }
 
-export const cadastraSalasAPI = async (objeto, metodo) => {
+export const cadastraSetoresAPI = async (objeto, metodo) => {
     const response = 
-        await fetch(`${process.env.REACT_APP_ENDERECO_API}/salas`,
+        await fetch(`${process.env.REACT_APP_ENDERECO_API}/setores`,
         {
             method : metodo,
             headers : {"Content-Type" : "application/json",

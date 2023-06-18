@@ -1,8 +1,23 @@
 import Autenticacao from "../seg/Autenticacao";
 
-export const getPrediosAPI = async () => {
+export const getPesosDaSetorAPI = async codigosetor => {
     const response =
-        await fetch(`${process.env.REACT_APP_ENDERECO_API}/predios`,
+        await
+            fetch(`${process.env.REACT_APP_ENDERECO_API}/pesos/setor/${codigosetor}`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "x-access-token": Autenticacao.pegaAutenticacao().token
+                    }
+                });
+    const data = await response.json();
+    return data;
+}
+
+export const getPesoPorCodigoAPI = async codigo => {
+    const response =
+        await fetch(`${process.env.REACT_APP_ENDERECO_API}/pesos/${codigo}`,
             {
                 method: "GET",
                 headers: {
@@ -14,23 +29,9 @@ export const getPrediosAPI = async () => {
     return data;
 }
 
-export const getPredioPorCodigoAPI = async codigo => {
+export const deletePesoPorCodigoAPI = async codigo => {
     const response =
-        await fetch(`${process.env.REACT_APP_ENDERECO_API}/predios/${codigo}`,
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "x-access-token": Autenticacao.pegaAutenticacao().token
-                }
-            });
-    const data = await response.json();
-    return data;
-}
-
-export const deletePredioPorCodigoAPI = async codigo => {
-    const response =
-        await fetch(`${process.env.REACT_APP_ENDERECO_API}/predios/${codigo}`,
+        await fetch(`${process.env.REACT_APP_ENDERECO_API}/pesos/${codigo}`,
             {
                 method: "DELETE",
                 headers: {
@@ -42,17 +43,16 @@ export const deletePredioPorCodigoAPI = async codigo => {
     return data;
 }
 
-export const cadastraPrediosAPI = async (objeto, metodo) => {
+export const cadastraPesosAPI = async (objeto, metodo) => {
     const response =
-        await fetch(`${process.env.REACT_APP_ENDERECO_API}/predios`,
+        await fetch(`${process.env.REACT_APP_ENDERECO_API}/pesos`,
             {
                 method: metodo,
                 headers: {
                     "Content-Type": "application/json",
                     "x-access-token": Autenticacao.pegaAutenticacao().token
                 },
-                body: JSON.stringify(objeto),
-
+                body: JSON.stringify(objeto)
             });
     const data = await response.json();
     return data;
