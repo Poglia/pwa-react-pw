@@ -1,12 +1,12 @@
 import { useContext } from "react";
-import PredioContext from "./PredioContext";
+import AcademiaContext from "./AcademiaContext";
 import Alerta from '../../comuns/Alerta'
 
 function Tabela() {
 
     const { alerta, setAlerta, listaObjetos, remover,
         setEditar, setObjeto, recuperar }
-        = useContext(PredioContext);
+        = useContext(AcademiaContext);
 
     return (
         <div style={{ padding: '20px' }}>

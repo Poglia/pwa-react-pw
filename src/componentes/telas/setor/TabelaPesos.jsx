@@ -1,41 +1,41 @@
 import { useContext } from "react";
-import SalaContext from "./SalaContext";
+import SetorContext from "./SetorContext";
 import Alerta from '../../comuns/Alerta'
 
-function TabelaEquipamentos() {
+function TabelaPesos() {
 
-    const { alerta, setAlerta, listaEquipamentos, removerEquipamento,
-        objeto, setEditarEquipamento, setEquipamento, recuperarEquipamento,
-        setExibirEquipamentos }
-        = useContext(SalaContext);
+    const { alerta, setAlerta, listaPesos, removerPeso,
+        objeto, setEditarPeso, setPeso, recuperarPesos,
+        setExibirPesos }
+        = useContext(SetorContext);
 
     return (
         <div style={{ padding: '20px' }}>
             <button className="btn btn-secondary" onClick={() => {
-                setExibirEquipamentos(false);
+                setExibirPesos(false);
                 setAlerta({ status: "", message: "" });
             }}>
                Voltar <i className="bi bi-backspace"></i>
             </button>
-            <h1>Equipamentos da Sala : {objeto.numero}</h1>
+            <h1>Pesos do Setor : {objeto.numero}</h1>
             <Alerta alerta={alerta} />
             <button type="button" className="btn btn-primary"
                 data-bs-toggle="modal"
-                data-bs-target="#modalEdicaoEquipamento"
+                data-bs-target="#modalEdicaoPeso"
                 onClick={() => {
-                    setEditarEquipamento(false);
+                    setEditarPeso(false);
                     setAlerta({ status: "", message: "" });
-                    setEquipamento({
+                    setPeso({
                         codigo: 0,
                         descricao: "", numero_serie: "",
-                        valor : "", sala: objeto.codigo
+                        valor : "", setor: objeto.codigo
                     });
                 }}>
                 Novo
             </button>
-            {listaEquipamentos.length === 0 &&
-                <h1>Nenhum equipamento encontrado</h1>}
-            {listaEquipamentos.length > 0 && (
+            {listaPesos.length === 0 &&
+                <h1>Nenhum peso encontrado</h1>}
+            {listaPesos.length > 0 && (
                 <div className="table-responsive">
                     <table className="table">
                         <thead>
@@ -49,28 +49,28 @@ function TabelaEquipamentos() {
                             </tr>
                         </thead>
                         <tbody>
-                            {listaEquipamentos.map(equipamento => (
-                                <tr key={equipamento.codigo}>
+                            {listaPesos.map(peso => (
+                                <tr key={peso.codigo}>
                                     <td align="center">
                                         <button className="btn btn-info" title="Editar"
                                             data-bs-toggle="modal"
-                                            data-bs-target="#modalEdicaoEquipamento"
+                                            data-bs-target="#modalEdicaoPeso"
                                             onClick={() => {
-                                                recuperarEquipamento(equipamento.codigo);
-                                                setEditarEquipamento(true);
+                                                recuperarPesos(peso.codigo);
+                                                setEditarPeso(true);
                                                 setAlerta({ status: "", message: "" });
                                             }}>
                                             <i className="bi bi-pencil-square"></i>
                                         </button>
                                         <button className="btn btn-danger" title="Remover"
-                                            onClick={() => removerEquipamento(equipamento)}>
+                                            onClick={() => removerPeso(peso)}>
                                             <i className="bi bi-trash"></i>
                                         </button>
                                     </td>
-                                    <th scope="row">{equipamento.codigo}</th>
-                                    <td>{equipamento.descricao}</td>
-                                    <td>{equipamento.numero_serie}</td>
-                                    <td>{equipamento.valor}</td>
+                                    <th scope="row">{peso.codigo}</th>
+                                    <td>{peso.descricao}</td>
+                                    <td>{peso.numero_serie}</td>
+                                    <td>{peso.valor}</td>
                                 </tr>
                             ))}
 
@@ -84,4 +84,4 @@ function TabelaEquipamentos() {
 
 }
 
-export default TabelaEquipamentos;
+export default TabelaPesos;

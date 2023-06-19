@@ -1,40 +1,40 @@
 import { useContext } from "react";
 import Alerta from "../../comuns/Alerta";
-import SalaContext from "./SalaContext";
+import SetorContext from "./SetorContext";
 import CampoEntrada from "../../comuns/CampoEntrada";
 import Dialogo from "../../comuns/Dialogo";
 
-function FormEquipamento() {
+function FormPeso() {
 
-    const { equipamento, handleChangeEquipamento,
-        acaoCadastrarEquipamento, alerta } = useContext(SalaContext);
+    const { peso, handleChangePeso,
+        acaoCadastrarPeso, alerta } = useContext(SetorContext);
 
     return (
-        <Dialogo id="modalEdicaoEquipamento" titulo="Equipamento"
-            acaoCadastrar={acaoCadastrarEquipamento}
-            idform="formularioEquipamento">
+        <Dialogo id="modalEdicaoPeso" titulo="Peso"
+            acaoCadastrar={acaoCadastrarPeso}
+            idform="formularioPeso">
             <Alerta alerta={alerta} />
             <CampoEntrada id="txtCodigo" label="Código"
-                tipo="number" name="codigo" value={equipamento.codigo}
-                onchange={handleChangeEquipamento} requerido={false}
+                tipo="number" name="codigo" value={peso.codigo}
+                onchange={handleChangePeso} requerido={false}
                 readonly={true} />
             <CampoEntrada id="txtDescricao" label="Descrição"
                 tipo="text" name="descricao"
-                value={equipamento.descricao}
-                onchange={handleChangeEquipamento} requerido={true}
+                value={peso.descricao}
+                onchange={handleChangePeso} requerido={true}
                 readonly={false} maxlength={40}
                 msgvalido="Descrição OK"
                 msginvalido="Informe a descrição" />
             <CampoEntrada id="txtNumeroSerie" label="Número de série"
                 tipo="text" name="numero_serie"
-                value={equipamento.numero_serie}
-                onchange={handleChangeEquipamento} requerido={true}
+                value={peso.numero_serie}
+                onchange={handleChangePeso} requerido={true}
                 readonly={false} maxlength={40}
                 msgvalido="Número de série OK"
                 msginvalido="Informe o número de série" />
             <CampoEntrada id="txtValor" label="Valor"
-                tipo="number" name="valor" value={equipamento.valor}
-                onchange={handleChangeEquipamento} requerido={true}
+                tipo="number" name="valor" value={peso.valor}
+                onchange={handleChangePeso} requerido={true}
                 readonly={false} maxlength={10}
                 msgvalido="Valor OK"
                 msginvalido="Informe o valor" />           
@@ -43,4 +43,4 @@ function FormEquipamento() {
 
 }
 
-export default FormEquipamento;
+export default FormPeso;

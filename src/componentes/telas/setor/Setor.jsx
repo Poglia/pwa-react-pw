@@ -1,21 +1,21 @@
 import { useState, useEffect } from "react";
-import SalaContext from "./SalaContext";
+import SetorContext from "./SetorContext";
 import Tabela from "./Tabela";
 import Form from "./Form";
 import Carregando from "../../comuns/Carregando";
-import { getPrediosAPI } from '../../servicos/PredioServico';
-import { getSalasAPI, getSalaPorCodigoAPI, deleteSalaPorCodigoAPI, cadastraSalasAPI } from '../../servicos/SalaServico'
+import { getAcademiasAPI } from '../../servicos/AcademiaServico';
+import { getSetoresAPI, getSetorPorCodigoAPI, deleteSetorPorCodigoAPI, cadastraSetoresAPI } from '../../servicos/SetorServico'
 import {
-    getEquipamentosDaSalaAPI, getEquipamentoPorCodigoAPI,
-    deleteEquipamentoPorCodigoAPI, cadastraEquipamentosAPI
-} from '../../servicos/EquipamentoServico';
-import FormEquipamento from "./FormEquipamento";
-import TabelaEquipamentos from "./TabelaEquipamentos";
+    getPesosDaSetorAPI, getPesoPorCodigoAPI,
+    deletePesoPorCodigoAPI, cadastraPesosAPI
+} from '../../servicos/PesoServico';
+import FormPeso from "./FormPeso";
+import TabelaPesos from "./TabelaPesos";
 import WithAuth from "../../seg/WithAuth";
 import { useNavigate } from "react-router-dom";
 
 
-function Predio() {
+function Academia() {
 
     let navigate = useNavigate();
 
@@ -27,69 +27,69 @@ function Predio() {
         descricao: "", sigla: ""
     });
     const [carregando, setCarrengando] = useState(true);
-    const [listaPredios, setListaPredios] = useState([]);
-    const [editarEquipamento, setEditarEquipamento] = useState(false);
-    const [equipamento, setEquipamento] = useState({
-        codigo: "", descricao: "", numero_serie: "", valor: "", sala: ""
+    const [listaAcademias, setListaAcademias] = useState([]);
+    const [editarPeso, setEditarPeso] = useState(false);
+    const [peso, setPeso] = useState({
+        codigo: "", descricao: "", numero_serie: "", valor: "", setor: ""
     })
-    const [listaEquipamentos, setListaEquipamentos] = useState([]);
-    const [exibirEquipamentos, setExibirEquipamentos] = useState(false);
+    const [listaPesos, setListaPesos] = useState([]);
+    const [exibirPesos, setExibirPesos] = useState(false);
 
-    const recuperarEquipamentos = async codigosala => {
+    const recuperarPesos = async codigosetor => {
         try {
-            setObjeto(await getSalaPorCodigoAPI(codigosala));
-            setListaEquipamentos(await getEquipamentosDaSalaAPI(codigosala));
-            setExibirEquipamentos(true);
+            setObjeto(await getSetorPorCodigoAPI(codigosetor));
+            setListaPesos(await getPesosDaSetorAPI(codigosetor));
+            setExibirPesos(true);
         } catch (err) {
             window.location.reload();
             navigate("/login", { replace: true });
         }
     }
 
-    const recuperarEquipamento = async codigo => {
+    const recuperarPeso = async codigo => {
         try {
-            setEquipamento(await getEquipamentoPorCodigoAPI(codigo));
+            setPeso(await getPesoPorCodigoAPI(codigo));
         } catch (err) {
             window.location.reload();
             navigate("/login", { replace: true });
         }
     }
 
-    const removerEquipamento = async equipamento => {
-        if (window.confirm('Deseja remover este equipamento?')) {
+    const removerPeso = async peso => {
+        if (window.confirm('Deseja remover este peso?')) {
             let retornoAPI =
-                await deleteEquipamentoPorCodigoAPI(equipamento.codigo);
+                await deletePesoPorCodigoAPI(peso.codigo);
             setAlerta({ status: retornoAPI.status, message: retornoAPI.message });
-            setListaEquipamentos(await getEquipamentosDaSalaAPI(objeto.codigo));
+            setListaPesos(await getPesosDaSetorAPI(objeto.codigo));
         }
     }
 
-    const acaoCadastrarEquipamento = async e => {
+    const acaoCadastrarPeso = async e => {
         e.preventDefault();
-        const metodo = editarEquipamento ? "PUT" : "POST";
+        const metodo = editarPeso ? "PUT" : "POST";
         try {
-            let retornoAPI = await cadastraEquipamentosAPI(equipamento, metodo);
+            let retornoAPI = await cadastraPesosAPI(peso, metodo);
             setAlerta({ status: retornoAPI.status, message: retornoAPI.message });
             setObjeto(retornoAPI.objeto);
-            if (!editarEquipamento) {
-                setEditarEquipamento(true);
+            if (!editarPeso) {
+                setEditarPeso(true);
             }
         } catch (err) {
             window.location.reload();
             navigate("/login", { replace: true });
         }
-        recuperarEquipamentos(objeto.codigo);
+        recuperarPesos(objeto.codigo);
     }
 
-    const handleChangeEquipamento = (e) => {
+    const handleChangePeso = (e) => {
         const name = e.target.name;
         const value = e.target.value;
-        setEquipamento({ ...equipamento, [name]: value });
+        setPeso({ ...peso, [name]: value });
     }
 
     const recuperar = async codigo => {
         try {
-            setObjeto(await getSalaPorCodigoAPI(codigo));
+            setObjeto(await getSetorPorCodigoAPI(codigo));
         } catch (err) {
             window.location.reload();
             navigate("/login", { replace: true });
@@ -100,7 +100,7 @@ function Predio() {
         e.preventDefault();
         const metodo = editar ? "PUT" : "POST";
         try {
-            let retornoAPI = await cadastraSalasAPI(objeto, metodo);
+            let retornoAPI = await cadastraSetoresAPI(objeto, metodo);
             setAlerta({ status: retornoAPI.status, message: retornoAPI.message });
             setObjeto(retornoAPI.objeto);
             if (!editar) {
@@ -110,7 +110,7 @@ function Predio() {
             window.location.reload();
             navigate("/login", { replace: true });
         }
-        recuperaSalas();
+        recuperaSetores();
     }
 
     const handleChange = (e) => {
@@ -119,10 +119,10 @@ function Predio() {
         setObjeto({ ...objeto, [name]: value });
     }
 
-    const recuperaSalas = async () => {
+    const recuperaSetores = async () => {
         try {
             setCarrengando(true);
-            setListaObjetos(await getSalasAPI());
+            setListaObjetos(await getSetoresAPI());
             setCarrengando(false);
         } catch (err) {
             window.location.reload();
@@ -130,14 +130,14 @@ function Predio() {
         }
     }
 
-    const recuperaPredios = async () => {
-        setListaPredios(await getPrediosAPI());
+    const recuperaAcademias = async () => {
+        setListaAcademias(await getAcademiasAPI());
     }
 
     const remover = async objeto => {
         if (window.confirm('Deseja remover este objeto?')) {
             try {
-                let retornoAPI = await deleteSalaPorCodigoAPI(objeto.codigo);
+                let retornoAPI = await deleteSetorPorCodigoAPI(objeto.codigo);
                 setAlerta({ status: retornoAPI.status, message: retornoAPI.message });
             } catch (err) {
                 console.log(err);
@@ -145,35 +145,35 @@ function Predio() {
                 navigate("/login", { replace: true });
             }
         }
-        recuperaSalas();
+        recuperaSetores();
     }
 
     useEffect(() => {
-        recuperaSalas();
-        recuperaPredios();
+        recuperaSetores();
+        recuperaAcademias();
     }, []);
 
     return (
-        <SalaContext.Provider value={{
+        <SetorContext.Provider value={{
             alerta, setAlerta,
             listaObjetos, setListaObjetos,
-            recuperaPredios, remover,
+            recuperaAcademias, remover,
             objeto, setObjeto,
             editar, setEditar,
-            recuperar, acaoCadastrar, handleChange, listaPredios,
-            listaEquipamentos, equipamento, setEquipamento, handleChangeEquipamento,
-            removerEquipamento, recuperarEquipamento, acaoCadastrarEquipamento,
-            setEditarEquipamento, editarEquipamento, recuperarEquipamentos,
-            setExibirEquipamentos
+            recuperar, acaoCadastrar, handleChange, listaAcademias,
+            listaPesos, peso, setPeso, handleChangePeso,
+            removerPeso, recuperarPeso, acaoCadastrarPeso,
+            setEditarPeso, editarPeso, recuperarPesos,
+            setExibirPesos
         }}>
             <Carregando carregando={carregando}>
-                {!exibirEquipamentos ? <Tabela /> : <TabelaEquipamentos />}
+                {!exibirPesos ? <Tabela /> : <TabelaPesos />}
             </Carregando>
             <Form />
-            <FormEquipamento />
-        </SalaContext.Provider>
+            <FormPeso />
+        </SetorContext.Provider>
     )
 
 }
 
-export default WithAuth(Predio);
+export default WithAuth(Academia);

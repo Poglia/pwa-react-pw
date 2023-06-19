@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import PredioContext from "./PredioContext";
+import AcademiaContext from "./AcademiaContext";
 import Tabela from "./Tabela";
 import Form from "./Form";
 import Carregando from "../../comuns/Carregando";
-import { getPrediosAPI, getPredioPorCodigoAPI, deletePredioPorCodigoAPI, cadastraPrediosAPI } from '../../servicos/PredioServico';
+import { getAcademiasAPI, getAcademiaPorCodigoAPI, deleteAcademiaPorCodigoAPI, cadastraAcademiasAPI } from '../../servicos/AcademiaServico';
 import WithAuth from "../../seg/WithAuth";
 import { useNavigate } from "react-router-dom";
 
-function Predio() {
+function Academia() {
 
     let navigate = useNavigate();
 
@@ -22,7 +22,7 @@ function Predio() {
 
     const recuperar = async codigo => {
         try {
-            setObjeto(await getPredioPorCodigoAPI(codigo));
+            setObjeto(await getAcademiaPorCodigoAPI(codigo));
         } catch (err) {
             window.location.reload();
             navigate("/login", { replace: true });
@@ -33,7 +33,7 @@ function Predio() {
         e.preventDefault();
         const metodo = editar ? "PUT" : "POST";
         try {
-            let retornoAPI = await cadastraPrediosAPI(objeto, metodo);
+            let retornoAPI = await cadastraAcademiasAPI(objeto, metodo);
             setAlerta({ status: retornoAPI.status, message: retornoAPI.message });
             setObjeto(retornoAPI.objeto);
             if (!editar) {
@@ -44,7 +44,7 @@ function Predio() {
             window.location.reload();
             navigate("/login", { replace: true });
         }
-        recuperaPredios();
+        recuperaAcademias();
     }
 
     const handleChange = (e) => {
@@ -53,10 +53,10 @@ function Predio() {
         setObjeto({ ...objeto, [name]: value });
     }
 
-    const recuperaPredios = async () => {
+    const recuperaAcademias = async () => {
         try {
             setCarrengando(true);
-            setListaObjetos(await getPrediosAPI());
+            setListaObjetos(await getAcademiasAPI());
             setCarrengando(false);
         } catch (err) {
             window.location.reload();
@@ -67,25 +67,25 @@ function Predio() {
     const remover = async objeto => {
         if (window.confirm('Deseja remover este objeto?')) {
             try {
-                let retornoAPI = await deletePredioPorCodigoAPI(objeto.codigo);
+                let retornoAPI = await deleteAcademiaPorCodigoAPI(objeto.codigo);
                 setAlerta({ status: retornoAPI.status, message: retornoAPI.message });
             } catch (err) {
                 window.location.reload();
                 navigate("/login", { replace: true });
             }
         }
-        recuperaPredios();
+        recuperaAcademias();
     }
 
     useEffect(() => {
-        recuperaPredios();
+        recuperaAcademias();
     }, []);
 
     return (
-        <PredioContext.Provider value={{
+        <AcademiaContext.Provider value={{
             alerta, setAlerta,
             listaObjetos, setListaObjetos,
-            recuperaPredios, remover,
+            recuperaAcademias, remover,
             objeto, setObjeto,
             editar, setEditar,
             recuperar, acaoCadastrar, handleChange
@@ -94,9 +94,9 @@ function Predio() {
                 <Tabela />
             </Carregando>
             <Form />
-        </PredioContext.Provider>
+        </AcademiaContext.Provider>
     )
 
 }
 
-export default WithAuth(Predio);
+export default WithAuth(Academia);

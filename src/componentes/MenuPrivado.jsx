@@ -25,10 +25,10 @@ const MenuPrivado = () => {
                                     </a>
                                     <ul className="dropdown-menu">
                                         <li>
-                                            <NavLink className="dropdown-item" to="predios">Prédios</NavLink>
+                                            <NavLink className="dropdown-item" to="academias">Academias</NavLink>
                                         </li>
                                         <li>
-                                            <NavLink className="dropdown-item" to="salas">Salas</NavLink>
+                                            <NavLink className="dropdown-item" to="setores">Setores</NavLink>
                                         </li>
                                     </ul>
                                 </li>

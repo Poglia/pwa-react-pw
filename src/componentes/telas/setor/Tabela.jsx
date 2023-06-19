@@ -1,16 +1,16 @@
 import { useContext } from "react";
-import SalaContext from "./SalaContext";
+import SetorContext from "./SetorContext";
 import Alerta from '../../comuns/Alerta'
 
 function Tabela() {
 
     const { alerta, setAlerta, listaObjetos, remover,
-        setEditar, setObjeto, recuperar, recuperarEquipamentos }
-        = useContext(SalaContext);
+        setEditar, setObjeto, recuperar, recuperarPesos }
+        = useContext(SetorContext);
 
     return (
         <div style={{ padding: '20px' }}>
-            <h1>Salas</h1>
+            <h1>Setores</h1>
             <Alerta alerta={alerta} />
             <button type="button" className="btn btn-primary"
                 data-bs-toggle="modal"
@@ -21,13 +21,13 @@ function Tabela() {
                     setObjeto({
                         codigo: 0,
                         numero: "", descricao: "", capacidade: "",
-                        predio : ""
+                        academia : ""
                     });
                 }}>
                 Novo
             </button>
             {listaObjetos.length === 0 &&
-                <h1>Nenhum sala encontrado</h1>}
+                <h1>Nenhum setor encontrado</h1>}
             {listaObjetos.length > 0 && (
                 <div className="table-responsive">
                     <table className="table">
@@ -39,7 +39,7 @@ function Tabela() {
                                 <th scope="col">Número</th>
                                 <th scope="col">Descrição</th>
                                 <th scope="col">Capacidade</th>
-                                <th scope="col">Prédio</th>
+                                <th scope="col">Academia</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -60,9 +60,9 @@ function Tabela() {
                                             onClick={() => remover(objeto)}>
                                             <i className="bi bi-trash"></i>
                                         </button>
-                                        <button className="btn btn-success" title="Equipamentos"
+                                        <button className="btn btn-success" title="Pesos"
                                             onClick={() => {
-                                                recuperarEquipamentos(objeto.codigo);
+                                                recuperarPesos(objeto.codigo);
                                                 setAlerta({ status: "", message: "" });
                                             }}>
                                             <i className="bi bi-pc-display"></i>
@@ -72,7 +72,7 @@ function Tabela() {
                                     <td>{objeto.numero}</td>
                                     <td>{objeto.descricao}</td>
                                     <td>{objeto.capacidade}</td>
-                                    <td>{objeto.nomepredio}</td>
+                                    <td>{objeto.nomeacademia}</td>
                                 </tr>
                             ))}
 

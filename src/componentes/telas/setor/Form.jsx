@@ -1,16 +1,16 @@
 import { useContext } from "react";
 import Alerta from "../../comuns/Alerta";
-import SalaContext from "./SalaContext";
+import SetorContext from "./SetorContext";
 import CampoEntrada from "../../comuns/CampoEntrada";
 import Dialogo from "../../comuns/Dialogo";
 
 function Form() {
 
-    const { objeto, handleChange, acaoCadastrar, alerta, listaPredios } =
-        useContext(SalaContext);
+    const { objeto, handleChange, acaoCadastrar, alerta, listaAcademias } =
+        useContext(SetorContext);
 
     return (
-        <Dialogo id="modalEdicao" titulo="Sala"
+        <Dialogo id="modalEdicao" titulo="Setor"
             acaoCadastrar={acaoCadastrar} idform="formulario">
             <Alerta alerta={alerta} />
             <CampoEntrada id="txtCodigo" label="Código"
@@ -37,19 +37,19 @@ function Form() {
                 msgvalido="Capacidade OK"
                 msginvalido="Informe a capacidade" />
             <div class="mb-3">
-                <label htmlFor="selectPredio"
+                <label htmlFor="selectAcademia"
                     className="form-label">Prédio</label>
                 <select className="form-control"
                     required
-                    value={objeto.predio}
-                    name="predio" onChange={handleChange}>
+                    value={objeto.academia}
+                    name="academia" onChange={handleChange}>
                     <option disabled="true" value="">
                         Selecione o prédio
                     </option>
                     {
-                        listaPredios.map((predio) => (
-                            <option key={predio.codigo} value={predio.codigo}>
-                                {predio.nome}
+                        listaAcademias.map((academia) => (
+                            <option key={academia.codigo} value={academia.codigo}>
+                                {academia.nome}
                             </option>
                         ))
                     }
